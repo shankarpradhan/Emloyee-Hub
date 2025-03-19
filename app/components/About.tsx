@@ -15,7 +15,7 @@ export default function HeroSection() {
             ensures secure, scalable, and reliable data management—so you can focus on what matters most: 
             growing and empowering your business.
             </p>
-            <a href="#" className="mt-6 inline-block text-green-600 font-semibold hover:underline">
+            <a href="#contact" className="mt-6 inline-block text-green-600 font-semibold hover:underline">
               Get in touch
             </a>
           </div>
