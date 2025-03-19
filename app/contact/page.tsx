@@ -1,13 +1,20 @@
 "use client";
+
 declare global {
   interface Window {
-    grecaptcha: any;
+    grecaptcha?: {
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
   }
 }
+
 import React, { useState, useEffect } from "react";
 import Script from "next/script";
 
 export default function ContactForm() {
+
+  const [submit, setSubmit] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +28,6 @@ export default function ContactForm() {
   // Handle Input Change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
-
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
@@ -39,16 +45,18 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+
     if (!recaptchaReady) {
       alert("reCAPTCHA is not ready. Please wait.");
       return;
     }
 
+    setSubmit(true);
+
     try {
       // Execute reCAPTCHA
-      const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-      const recaptchaToken = await (window as any).grecaptcha.execute(recaptchaSiteKey, { action: "submit" });
-
+      const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+      const recaptchaToken = await window.grecaptcha?.execute(recaptchaSiteKey, { action: "submit" });
 
       if (!recaptchaToken) {
         alert("reCAPTCHA verification failed. Please try again.");
@@ -58,22 +66,32 @@ export default function ContactForm() {
       // Submit form data with reCAPTCHA token
       const response = await fetch("/api/sendEmail", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          recaptchaToken,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, recaptchaToken }),
       });
 
-      const result = await response.json();
+      await response.json();
       if (response.ok) {
-        alert("Email sent successfully!");
+        alert("✅ Email sent successfully!");
+
+        setTimeout(()=>{
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            consent: false,
+          });
+          setSubmit(false);
+        }, 2000);
+        
       } else {
-        alert("Failed to send email.");
+        alert("❌ Failed to send email.");
+        setSubmit(false);
       }
     } catch (error) {
+      console.error("🔥 Email error:", error);
+      setSubmit(false);
       alert("An error occurred. Please try again.");
     }
   };
@@ -155,9 +173,12 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white font-semibold py-2 rounded hover:bg-green-700"
+          disabled={submit}
+          className={`w-full font-semibold py-2 rounded transition ${
+            submit ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"
+          }`}
         >
-          SUBMIT
+          {submit ? "Submitting..." : "SUBMIT"}
         </button>
       </form>
 
@@ -170,7 +191,6 @@ export default function ContactForm() {
             shankarpradhan845@gmail.com
           </a>
         </p>
-
         <h2 className="text-lg font-bold mt-4">Hours</h2>
         <ul className="mt-2 space-y-1 text-gray-700">
           <li>Monday &nbsp;&nbsp;&nbsp;&nbsp; 9:00am – 10:00pm</li>

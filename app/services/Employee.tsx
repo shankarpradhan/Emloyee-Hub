@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 const employeeData = [
   {
     id: "employee-records",
@@ -38,7 +38,7 @@ export default function EmployeeManagement() {
       <div className="mt-10 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
         {employeeData.map((item) => (
           <div key={item.id} className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
-            <img src={item.image} alt={item.title} className="w-full h-56 object-cover" />
+            <Image src={item.image} alt={item.title} width={100} height={56} className="w-full h-56 object-cover" />
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900">
               <Link href={`/services/details/${item.id}`} className="hover:underline">

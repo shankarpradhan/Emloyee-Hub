@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HeroSection() {
     return (
       <section id="about" className="bg-white py-20 px-8">
@@ -20,9 +22,11 @@ export default function HeroSection() {
   
           {/* ✅ Right Side - Image */}
           <div>
-            <img
+            <Image
               src="/images/hero-section.jpeg"
               alt="Dashboard Preview"
+              width={800} // Adjust as needed
+              height={500}
               className="w-full rounded-lg shadow-md"
             />
           </div>

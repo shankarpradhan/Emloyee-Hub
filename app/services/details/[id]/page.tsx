@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-
+import Image from "next/image";
 const employeeData = [
   {
     id: "employee-records",
@@ -61,10 +61,11 @@ export default function EmployeeDetail() {
 
   // Generate available slots dynamically when a date is selected
   useEffect(() => {
-    if (selectedDate) {
-      const slots = generateSlots(selectedDate);
-      setAvailableSlots(slots);
+    if (!selectedDate) {
+      return ;
     }
+    const slots = generateSlots(selectedDate);
+    setAvailableSlots(slots);
   }, [selectedDate]);
 
   // Function to generate available time slots
@@ -104,9 +105,11 @@ export default function EmployeeDetail() {
       <div className="max-w-6xl mx-auto p-6  items-center">
         {/* Left Side - Image */}
         <div>
-          <img
+          <Image
             src={employee.image}
             alt={employee.title}
+            width={100}
+            height={50}
             className="w-full h-[50vh] object-cover rounded-lg shadow-lg"
           />
         </div>

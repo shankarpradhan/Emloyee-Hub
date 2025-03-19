@@ -6,7 +6,7 @@ export async function GET() {
     const db = await connectDB();
     const employees = await db.collection("employees").find().toArray();
     return NextResponse.json(employees);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
       { error: "Failed to fetch employees" },
       { status: 500 }
