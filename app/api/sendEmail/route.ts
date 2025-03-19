@@ -90,12 +90,9 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ success: true, message: "✅ Email sent successfully!" }, { status: 200 });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-        console.error("🔥 Email error:", error.message);
-      } else {
-        console.error("🔥 Unknown email error:", error);
-      }
+  } catch (error) {
+    const err = error as Error;
+    console.error("🔥 Email error:", err.message);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
