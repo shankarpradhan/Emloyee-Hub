@@ -7,19 +7,17 @@ if (!MONGO_URI) {
 }
 
 // Extend the global object for TypeScript
+/* eslint-disable no-var */
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
+/* eslint-enable no-var */
 
 // Use a global variable to store the MongoDB client promise
 const client = new MongoClient(MONGO_URI);
 
-if (!globalThis._mongoClientPromise) {
-  globalThis._mongoClientPromise = client.connect();
-}
-
-// Ensure TypeScript knows `_mongoClientPromise` is always defined
-const clientPromise: Promise<MongoClient> = globalThis._mongoClientPromise!;
+const clientPromise: Promise<MongoClient> =
+  globalThis._mongoClientPromise ?? (globalThis._mongoClientPromise = client.connect());
 
 export async function connectDB() {
   return (await clientPromise).db();

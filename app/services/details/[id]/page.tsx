@@ -55,18 +55,17 @@ export default function EmployeeDetail() {
 
   const employee = employeeData.find((item) => item.id === id);
 
+  
+
+  // Generate available slots dynamically when a date is selected
+  useEffect(() => {
+    setAvailableSlots(selectedDate ? generateSlots(selectedDate) : []);
+  }, [selectedDate]);
+  
   if (!employee) {
     return <div className="text-center text-red-600">Employee not found.</div>;
   }
 
-  // Generate available slots dynamically when a date is selected
-  useEffect(() => {
-    if (!selectedDate) {
-      return ;
-    }
-    const slots = generateSlots(selectedDate);
-    setAvailableSlots(slots);
-  }, [selectedDate]);
 
   // Function to generate available time slots
   function generateSlots(date: Date) {
