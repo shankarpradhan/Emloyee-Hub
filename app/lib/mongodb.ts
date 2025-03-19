@@ -1,24 +1,23 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
+// Retrieve MongoDB URI from environment variables
 const MONGO_URI = process.env.MONGO_URI;
 
 if (!MONGO_URI) {
   throw new Error("Please define the MONGO_URI environment variable");
 }
 
-// Extend the global object for TypeScript
-/* eslint-disable no-var */
-declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
-}
-/* eslint-enable no-var */
-
-// Use a global variable to store the MongoDB client promise
 const client = new MongoClient(MONGO_URI);
 
+// Use a global variable to store the MongoDB client promise
 const clientPromise: Promise<MongoClient> =
   globalThis._mongoClientPromise ?? (globalThis._mongoClientPromise = client.connect());
 
-export async function connectDB() {
-  return (await clientPromise).db();
+/**
+ * Connect to MongoDB and return the database instance.
+ * @returns {Promise<Db>} MongoDB database instance.
+ */
+export async function connectDB(): Promise<Db> {
+  const client = await clientPromise;
+  return client.db(); // Return the database instance
 }

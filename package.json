@@ -13,6 +13,7 @@
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "mongodb": "^6.14.2",
     "next": "^15.2.3",
     "nodemailer": "^6.10.0",
