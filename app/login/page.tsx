@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import { FaUser, FaLock } from "react-icons/fa";
 export default function Login() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -41,40 +41,52 @@ export default function Login() {
   }, [isLoggedIn, router]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          Login to Your Account
-        </h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-sm border border-gray-700 text-center">
+        <h1 className="text-3xl font-extrabold mb-6 text-yellow-400">🔐 Employee Login</h1>
+
+        {/* Email Input */}
+
+        <form onSubmit={handleLogin}>
+        <div className="relative w-full mb-4">
+          <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your email"
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
+            className="w-full p-3 pl-10 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-yellow-400 outline-none"
           />
+        </div>
+
+        {/* Password Input */}
+        <div className="relative w-full mb-4">
+          <FaLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}  
+          className="w-full p-3 pl-10 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-yellow-400 outline-none"
+          required
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-          >
-            Login
-          </button>
-        </form>
-        <p className="mt-4 text-center text-gray-600">
-          Don&apos;t have an account?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
-            Register
-          </a>
-        </p>
+        </div>
+
+        {/* Error Message */}
+
+        {/* Login Button */}
+        <button
+          type="submit"
+          className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 px-6 py-3 rounded-lg font-bold text-gray-900 transition-all duration-200"
+        >
+          Login 🔑
+        </button>
+      </form>
+      <div className="mt-6">
+        <a href="/register" className="text-blue-500 hover:underline">
+          Create your account 
+        </a>
+        </div>
       </div>
-    </div>
+      
+    </div>  
   );
 }

@@ -20,7 +20,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* ✅ Page content */}
-        <main className="min-h-screen flex flex-col">{children}</main>
+        <main className="h-[90vh]">{children}</main>
 
         {/* ✅ Footer - Stays on all pages */}
         <Footer />
