@@ -6,10 +6,11 @@ export default function AttendancePage() {
   const [isWithinRange, setIsWithinRange] = useState(false);
   const [attendanceMarked, setAttendanceMarked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const COMPANY_LAT = 12.9121;
   const COMPANY_LON = 77.6446;
-  const MAX_DISTANCE_KM = 5;
+  const MAX_DISTANCE_KM = 3;
 
   function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
     const R = 6371; // Earth's radius in km
@@ -24,6 +25,12 @@ export default function AttendancePage() {
   }
 
   useEffect(() => {
+    if (!navigator.geolocation) {
+      setError("❌ Geolocation is not supported by your browser.");
+      return;
+    }
+
+    // Fetch the location once
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const userLat = position.coords.latitude;
@@ -35,25 +42,26 @@ export default function AttendancePage() {
       },
       (error) => {
         console.error("Error getting location:", error);
-        alert("Please enable location services.");
-      }
+        setError("❌ Failed to get location. Ensure GPS is enabled.");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
     );
   }, []);
 
   const handleMarkAttendance = async () => {
     if (!location) {
-      alert("Location not available.");
+      alert("❌ Location not available.");
       return;
     }
 
     if (!isWithinRange) {
-      alert("You are not within the allowed range!");
+      alert("⚠️ You are not within the allowed range!");
       return;
     }
 
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("User not authenticated. Please log in.");
+      alert("🔒 User not authenticated. Please log in.");
       return;
     }
 
@@ -67,7 +75,7 @@ export default function AttendancePage() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          lat: location.lat, // ✅ Correct field names
+          lat: location.lat,
           lon: location.lon,
         }),
       });
@@ -90,11 +98,13 @@ export default function AttendancePage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold">Mark Your Attendance</h1>
+      <h1 className="text-3xl font-bold">📍 Mark Your Attendance</h1>
 
-      {location ? (
+      {error ? (
+        <p className="mt-4 text-red-400">{error}</p>
+      ) : location ? (
         <>
-          <p className="mt-4">Your Location: 📍 {location.lat}, {location.lon}</p>
+          <p className="mt-4">📍 Your Location: {location.lat}, {location.lon}</p>
           <p className={`mt-2 ${isWithinRange ? "text-green-400" : "text-red-400"}`}>
             {isWithinRange ? "✅ You are within range!" : "❌ You are outside the range!"}
           </p>

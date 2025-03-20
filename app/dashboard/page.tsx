@@ -42,12 +42,7 @@ export default function Dashboard() {
         <h2 className="text-3xl font-bold text-gray-800">Welcome to Your Dashboard</h2>
         {user && <p className="mt-2 text-gray-600">Logged in as: {user.email}</p>}
         {/* Dashboard Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div>
-            <h3 className="text-xl font-bold text-gray-800">Total Employees</h3>
-            <p className="text-gray-600 text-lg mt-2">150</p>
-          </div>
-        </div>
+        
         <AttendanceAll />
       </div>
     </div>

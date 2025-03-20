@@ -56,8 +56,6 @@ export default function Navbar() {
   
     requestAnimationFrame(animation);
   }
-  
-  
 
   return (
     <nav className="bg-white shadow-md py-4 px-6 fixed w-full top-0 z-50">
@@ -66,59 +64,68 @@ export default function Navbar() {
           EMPLOYEEHUB
         </Link>
 
-        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>☰</button>
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? "✖" : "☰"} {/* Show "✖" when menu is open, "☰" when closed */}
+        </button>
 
+        {/* Menu items */}
         <ul className={`md:flex space-x-6 text-gray-600 ${menuOpen ? "block" : "hidden"} md:block`}>
-            <li>
-                <Link href="/"
-                onClick={(e) => {
+          <li>
+            <Link
+              href="/"
+              onClick={(e) => {
                 e.preventDefault();
                 slowEasedScroll("home", 2500); // Set duration (e.g., 2.5 seconds)
-                }}
-                className="cursor-pointer"
-                >
-                    Home
-                </Link>
-            </li>
-            <li>
-              <a
-                href="#about"
-                onClick={(e) => {
-                  e.preventDefault();
-                  slowEasedScroll("about", 2500); // Set duration (e.g., 2.5 seconds)
-                }}
-                className="cursor-pointer"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#services"
-                onClick={(e) => {
-                    e.preventDefault();
-                    slowEasedScroll("services", 2500); // Set duration (e.g., 2.5 seconds)
-                }}
-                className="cursor-pointer"
-              >
-                Services
-              </a>
-            </li>
-            <li>
+              }}
+              className="cursor-pointer"
+            >
+              Home
+            </Link>
+          </li>
+          <li>
             <a
-                href="#contact"
-                onClick={(e) => {
-                    e.preventDefault();
-                    slowEasedScroll("contact", 2500); // Set duration (e.g., 2.5 seconds)
-                }}
-                className="cursor-pointer"
-              >
-                Contact
-              </a>
-            </li>
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                slowEasedScroll("about", 2500); // Set duration (e.g., 2.5 seconds)
+              }}
+              className="cursor-pointer"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="#services"
+              onClick={(e) => {
+                e.preventDefault();
+                slowEasedScroll("services", 2500); // Set duration (e.g., 2.5 seconds)
+              }}
+              className="cursor-pointer"
+            >
+              Services
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                slowEasedScroll("contact", 2500); // Set duration (e.g., 2.5 seconds)
+              }}
+              className="cursor-pointer"
+            >
+              Contact
+            </a>
+          </li>
 
-            <li><Link href="/dashboard">Dashboard</Link></li>
-            <li><button onClick={handleLogout}>Logout</button></li>
+          <li><Link href="/dashboard">Dashboard</Link></li>
+          <li><button onClick={handleLogout}>Logout</button></li>
         </ul>
       </div>
     </nav>
