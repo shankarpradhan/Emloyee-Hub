@@ -100,59 +100,61 @@ export default function AttendancePage() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h2 className="text-3xl font-bold text-gray-800">Attendance Records</h2>
-      <p className="text-gray-600">Showing today&apos;s attendance by default</p> {/* Fixed unescaped entity here */}
+      <p className="text-gray-600">Showing today&apos;s attendance by default</p>
 
       {/* Filter Options */}
-      <div className="flex space-x-4 mt-4">
-        <select onChange={(e) => setSelectedYear(e.target.value)} className="p-2 border rounded">
+      <div className="flex flex-wrap gap-2 mt-4">
+        <select onChange={(e) => setSelectedYear(e.target.value)} className="p-2 border rounded w-full sm:w-auto">
           <option value="">Select Year</option>
           {[...new Set(attendances.map(att => new Date(att.timestamp).getFullYear().toString()))].map(year => (
             <option key={year} value={year}>{year}</option>
           ))}
         </select>
-          
-        <select onChange={(e) => setSelectedMonth(e.target.value)} className="p-2 border rounded">
+        
+        <select onChange={(e) => setSelectedMonth(e.target.value)} className="p-2 border rounded w-full sm:w-auto">
           <option value="">Select Month</option>
           {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
             <option key={month} value={month}>{month}</option>
           ))}
         </select>
-
-        <select onChange={(e) => setSelectedDay(e.target.value)} className="p-2 border rounded">
+        
+        <select onChange={(e) => setSelectedDay(e.target.value)} className="p-2 border rounded w-full sm:w-auto">
           <option value="">Select Day</option>
           {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
             <option key={day} value={day}>{day}</option>
           ))}
         </select>
-          
-        <button onClick={handleFilterChange} className="px-4 py-2 bg-blue-500 text-white rounded">Filter</button>
         
-        <div>
+        <button onClick={handleFilterChange} className="px-4 py-2 bg-blue-500 text-white rounded w-full sm:w-auto">
+          Filter
+        </button>
+        
+        <div className="w-full sm:w-auto text-center">
           <h3 className="text-xl font-bold text-gray-800">Total Employees</h3>
-          <p className="text-gray-600 text-lg text-center">{filteredAttendances.length}</p>
+          <p className="text-gray-600 text-lg">{filteredAttendances.length}</p>
         </div>
       </div>
-      
+        
       {filteredAttendances.length === 0 ? (
-        <p className="mt-4">No attendance records found.</p>
+        <p className="mt-4 text-center">No attendance records found.</p>
       ) : (
         <div className="overflow-x-auto mt-6">
-          <table className="min-w-full table-auto border">
+          <table className="w-full max-w-full table-auto border">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-6 py-2 text-left">Email</th>
-                <th className="px-6 py-2 text-left">Timestamp</th>
-                <th className="px-6 py-2 text-left">Location</th>
-                <th className="px-6 py-2 text-left">Days Worked</th>
+                <th className="px-4 py-2 text-left">Email</th>
+                <th className="px-4 py-2 text-left">Timestamp</th>
+                <th className="px-4 py-2 text-left">Location</th>
+                <th className="px-4 py-2 text-left">Days Worked</th>
               </tr>
             </thead>
             <tbody>
               {filteredAttendances.map((attendance) => (
                 <tr key={`${attendance.userId}-${attendance.timestamp}`} className="border-b">
-                  <td className="px-6 py-2">{attendance.email}</td>
-                  <td className="px-6 py-2">{new Date(attendance.timestamp).toLocaleString()}</td>
-                  <td className="px-6 py-2">{attendance.location.lat}, {attendance.location.lon}</td>
-                  <td className="px-6 py-2 font-bold">{userWorkDays[attendance.email] || 0}</td>
+                  <td className="px-4 py-2">{attendance.email}</td>
+                  <td className="px-4 py-2">{new Date(attendance.timestamp).toLocaleString()}</td>
+                  <td className="px-4 py-2">{attendance.location.lat}, {attendance.location.lon}</td>
+                  <td className="px-4 py-2 font-bold">{userWorkDays[attendance.email] || 0}</td>
                 </tr>
               ))}
             </tbody>

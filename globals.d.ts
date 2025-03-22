@@ -9,5 +9,7 @@ declare global {
     };
   }
 }
+declare module "cloudinary";
+
 export {};
 // Your component code...

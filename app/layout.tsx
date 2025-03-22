@@ -20,7 +20,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* ✅ Page content */}
-        <main className="h-[90vh]">{children}</main>
+        <main>{children}</main>
 
         {/* ✅ Footer - Stays on all pages */}
         <Footer />

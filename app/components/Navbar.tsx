@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,6 +19,10 @@ export default function Navbar() {
   function handleLogout() {
     localStorage.removeItem("token");
     router.push("/login");
+  }
+
+  function handleout() {
+    if(!localStorage.getItem("token")){ router.push("/login")};
   }
 
   function slowEasedScroll(targetId: string, duration = 2000) {
@@ -126,6 +131,7 @@ export default function Navbar() {
 
           <li><Link href="/dashboard">Dashboard</Link></li>
           <li><button onClick={handleLogout}>Logout</button></li>
+          <li><button onClick={handleout}><Link href="/profile"><FaUserCircle className="text-gray-500 text-xl" /></Link></button></li>
         </ul>
       </div>
     </nav>

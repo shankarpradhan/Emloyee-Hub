@@ -44,7 +44,7 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-sm border border-gray-700 text-center">
         <h1 className="text-3xl font-extrabold mb-6 text-yellow-400">🔐 Employee Login</h1>
-
+    
         {/* Email Input */}
 
         <form onSubmit={handleLogin}>
