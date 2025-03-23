@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     MONGODB_URI: process.env.MONGODB_URI,
     JWT_SECRET: process.env.JWT_SECRET,
   },
+  images: {
+    domains: ["res.cloudinary.com"], // ✅ Allow Cloudinary images
+  },
 };
 
 export default nextConfig;

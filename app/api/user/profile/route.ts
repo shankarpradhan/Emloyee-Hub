@@ -25,8 +25,8 @@ export async function GET(request: Request) {
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-
-    return NextResponse.json({ profilePic: user.profilePic }, { status: 200 });
+    // console.log(user);
+    return NextResponse.json({ name:user.name, profilePic: user.profilePic, mail:user.email }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }

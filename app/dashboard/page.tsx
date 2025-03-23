@@ -40,7 +40,7 @@ export default function Dashboard() {
       
       <div className="container mx-auto p-6">
         <h2 className="text-3xl font-bold text-gray-800">Welcome to Your Dashboard</h2>
-        {user && <p className="mt-2 text-gray-600">Logged in as: {user.email}</p>}
+        {/* {user && <p className="mt-2 text-gray-600">Logged in as: {user.email}</p>} */}
         {/* Dashboard Cards */}
         
         <AttendanceAll />
