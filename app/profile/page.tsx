@@ -101,7 +101,7 @@ export default function AttendancePage() {
       {/* Show user email */}
       <ProfileUpload />
       <ProfilePhoto />
-      {userEmail && <p className="text-gray-600">Email: {userEmail}</p>}
+      <h1 title="user profile" className="hidden">{userEmail}</h1>
       {/* 📊 Attendance Chart */}
       <div className="mt-6 p-4 bg-white shadow-md rounded-lg">
         <h3 className="text-xl font-semibold mb-4">Attendance Trend</h3>

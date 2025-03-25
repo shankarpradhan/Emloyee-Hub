@@ -8,26 +8,29 @@ import AttendanceAll from "../attendance/AttendanceAll";
 
 export default function Dashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; role: string } | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
-
+      
       if (!token) {
         router.push("/login"); // Redirect if no token found
       } else {
-        // Decode JWT (if using JWT) or fetch user details
-        const decoded = jwt.decode(token) as { email: string };
-        if (decoded) {
-          setUser({ email: decoded.email });
+        // Decode JWT to get the email and other details (e.g., role)
+        const decoded = jwt.decode(token) as { email: string; role: string };
+
+        // Check if role exists in localStorage as well
+        const userRole = localStorage.getItem("role");
+        // alert(userRole);
+        if (decoded && userRole) {
+          setUser({ email: decoded.email, role: userRole });
         } else {
-          router.push("/login"); // Redirect if token is invalid
+          router.push("/login"); // Redirect if token or role is invalid
         }
       }
     }
   }, [router]);
-
 
   if (!user) {
     return <div>Loading...</div>; // Show loading text if user is not loaded
@@ -35,15 +38,18 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 mt-10">
-      {/* Optional Attendance Component */}
       <AttendanceMine />
-      
       <div className="container mx-auto p-6">
-        <h2 className="text-3xl font-bold text-gray-800">Welcome to Your Dashboard</h2>
-        {/* {user && <p className="mt-2 text-gray-600">Logged in as: {user.email}</p>} */}
-        {/* Dashboard Cards */}
+        {user.role=="admin" && <h2 className="text-3xl font-bold text-gray-800">Welcome to Your Dashboard</h2>}
+        {user.role === "admin" && <AttendanceAll />}
         
-        <AttendanceAll />
+        {/* Render AttendanceAll only if the role is 'admin' */}
+        
+        
+        {/* You can also render a message for non-admins if needed */}
+        {/* {user.role !== "admin" && (
+          <p className="mt-4 text-gray-600">You do not have access to view all attendance.</p>
+        )} */}
       </div>
     </div>
   );
